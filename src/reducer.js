@@ -1,10 +1,9 @@
-const intialState = 12
+import { users } from './users'
+const intialState = users
 const reducer = (state = intialState, action) => {
-    console.log(action.type)
-    if (action.type === "UP") {
-        state = state + 1;
-    } else if (action.type == "DOWN") {
-        state = state - 1;
+    switch (action.type) {
+        case 'ADD': state = [...state, action.payload]; break;
+        case 'DELETE': state = state - 1; break;
     }
     return state;
 }

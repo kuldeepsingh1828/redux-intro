@@ -1,7 +1,7 @@
-export function UP() {
-    return { type: "UP" }
+export function Add(data) {
+    return { type: "ADD", payload: data }
 }
 
-export function DOWN() {
-    return { type: "DOWN" }
+export function Delete(id) {
+    return { type: "DELETE", payload: id }
 }
