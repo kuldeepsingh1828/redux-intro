@@ -6,8 +6,9 @@ import { Add } from './actions'
 import App2 from './App2'
 import { Button } from '@mui/material';
 import AddDialog from './AddDialog';
+import {getUsers, insertUser} from './services/users'
 export default function App() {
-    const state = useSelector(state => state)
+    const [state, setstate] = React.useState([]);
     const dispatch = useDispatch();
 
     const [data, setData] = React.useState({ first_name: '', last_name: "" });
@@ -21,12 +22,18 @@ export default function App() {
         setOpen(true);
     };
 
-    const handleClose = (action) => {
+    const handleClose = async(action) => {
         if (action) {
             dispatch(Add(data));
+            let update =await insertUser(data);
+            window.alert(update);
         }
         setOpen(false);
     };
+    React.useEffect(async () => {
+        let users = await getUsers();
+        setstate(users);
+    }, [state.length]);
 
     return (
         <>
