@@ -6,9 +6,12 @@ import { Add } from './actions'
 import App2 from './App2'
 import { Button } from '@mui/material';
 import AddDialog from './AddDialog';
-import {getUsers, insertUser} from './services/users'
+import { getUsers, insertUser } from './services/users'
+import Login from './Login';
+import DisplayCar from './DisplayCar'
 export default function App() {
     const [state, setstate] = React.useState([]);
+    const [login, setLogin] = React.useState(false);
     const dispatch = useDispatch();
 
     const [data, setData] = React.useState({ first_name: '', last_name: "" });
@@ -22,10 +25,10 @@ export default function App() {
         setOpen(true);
     };
 
-    const handleClose = async(action) => {
+    const handleClose = async (action) => {
         if (action) {
             dispatch(Add(data));
-            let update =await insertUser(data);
+            let update = await insertUser(data);
             window.alert(update);
         }
         setOpen(false);
@@ -36,38 +39,43 @@ export default function App() {
     }, [state.length]);
 
     return (
+
         <>
+        <DisplayCar/>
+            {false && <Login />}
             <AddDialog data={data} open={open} handleClose={handleClose} changeHandler={changeHandler} />
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    <Grid item alignContent="center" lg={6} md={6}>
-                        <Button onClick={handleClickOpen}><AddCircleIcon fontSize="large" /></Button>
-                    </Grid>
-                    <Grid lg={6} md={6} item spacing={2} style={{ marginTop: 20 }}>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center">First Name&nbsp;(g)</TableCell>
-                                        <TableCell align="center">Last Name&nbsp;(g)</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {state.map((row) => (
-                                        <TableRow
-                                            key={row.name}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell align="center">{row.first_name}</TableCell>
-                                            <TableCell align="center">{row.last_name}</TableCell>
+            {false &&
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                        <Grid item alignContent="center" lg={6} md={6}>
+                            <Button onClick={handleClickOpen}><AddCircleIcon fontSize="large" /></Button>
+                        </Grid>
+                        <Grid lg={6} md={6} item spacing={2} style={{ marginTop: 20 }}>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center">First Name&nbsp;(g)</TableCell>
+                                            <TableCell align="center">Last Name&nbsp;(g)</TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                    </TableHead>
+                                    <TableBody>
+                                        {state.map((row) => (
+                                            <TableRow
+                                                key={row.name}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell align="center">{row.first_name}</TableCell>
+                                                <TableCell align="center">{row.last_name}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Box>
+                </Box>
+            }
         </>
 
     )
